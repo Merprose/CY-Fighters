@@ -5,7 +5,7 @@ Def:7
 Agl:9
 Spd:10
 Technique 1: red
-technique 2: hollow purple
+technique 2: hollowpurple
 End
 Nom:Sukuna
 MaxHp:120
@@ -14,7 +14,7 @@ Def:9
 Agl:7
 Spd:7
 Technique 1: slash
-technique 2: fire arrow
+technique 2: firearrow
 End
 Nom:Walter White
 MaxHp:80
@@ -22,8 +22,8 @@ Atk:12
 Def:9
 Agl:12
 Spd:12
-Technique 1: gun shot
-technique 2: components explosion
+Technique 1: gunshot
+technique 2: componentsexplosion
 End
 Nom:Thor
 MaxHp:150
@@ -31,8 +31,8 @@ Atk:10
 Def:12
 Agl:7
 Spd:7
-Technique 1: mjolnir throw
-technique 2: lightning shock
+Technique 1: mjolnirthrow
+technique 2: lightningshock
 End
 Nom:rocket racoon
 MaxHp:90
@@ -40,8 +40,8 @@ Atk:20
 Def:8
 Agl:10
 Spd:13
-Technique 1: bomb throw
-technique 2: healing ammo
+Technique 1: bombthrow
+technique 2: healingammo
 End
 Nom:tanjiro
 MaxHp:115
@@ -49,8 +49,8 @@ Atk:12
 Def:8
 Agl:9
 Spd:8
-Technique 1: current slash
-technique 2: clear sky
+Technique 1: currentslash
+technique 2: clearsky
 End
 Nom:Bowser
 MaxHp:150
@@ -58,8 +58,8 @@ Atk:15
 Def:15
 Agl:5
 Spd:5
-Technique 1: flame breath
-technique 2: shell crush
+Technique 1: flamebreath
+technique 2: shellcrush
 End
 Nom:Astérix
 MaxHp:100
@@ -67,6 +67,6 @@ Atk:15
 Def:8
 Agl:9
 Spd:11
-Technique 1: magical potion
+Technique 1: magicalpotion
 technique 2: punch
 End
