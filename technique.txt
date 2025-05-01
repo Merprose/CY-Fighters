@@ -1,1 +1,1 @@
-
+# Name,Type(DAMAGE,HEAL,BUFF,DEBUFF),Target(SELF,SINGLE_ENEMY,ALL_ENEMIES,SINGLE_ALLY,ALL_ALLIES),Value(int),Duration(turns),Cooldown(turns),Description
