@@ -5,7 +5,7 @@ Def:7
 Agl:9
 Spd:10
 Technique 1: red
-technique 2: reverse cursed technique
+technique 2: hollow purple
 End
 Nom:Sukuna
 MaxHp:120
