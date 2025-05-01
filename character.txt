@@ -22,7 +22,7 @@ Atk:12
 Def:9
 Agl:12
 Spd:12
-Technique 1: greatest cook
+Technique 1: gun shot
 technique 2: components explosion
 End
 Nom:Thor
