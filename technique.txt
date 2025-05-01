@@ -11,7 +11,7 @@ bombthrow,DAMAGE,ALL_ENEMIES,9,0,1, throws a grenade at the enemy
 healingammo,HEAL,SINGLE_ALLY,40,O,3,shoots a healing bullet at an ally
 currentslash,DAMAGE,SINGLE_ENEMY,17,0,1,slash the opponent using the power of water 
 clearsky,DAMAGE,SINGLE_ENEMY,23,0,2,cuts the opponent in pieces using the might of the sun
-flamebreath,DEBUFF,ALL_ENEMIES,8,2,3, bowser breathes fire at the opponent burning them
+flamebreath,DEBUFF,ALL_ENEMIES,8,2,3, bowser breathes fire at the opponent burning them inflicting 8 dama each turn for 2 turns
 shellcrush,DAMAGE,SINGLE_ENEMY,18,0,2, bowser jumps and crashes on the opponent 
 magicalpotion,BUFF,SELF,10,1,2, asterix drinks the magical potion increasing his damage output dramatically
 punch,DAMAGE,SINGLE_ENEMY,25,0,3, asterix simply punches his opponent's nose
