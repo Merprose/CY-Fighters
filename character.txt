@@ -1,1 +1,72 @@
-
+Nom:Satoru Gojo
+MaxHp:100
+Atk:15
+Def:7
+Agl:9
+Spd:10
+Technique 1: red
+technique 2: reverse cursed technique
+End
+Nom:Sukuna
+MaxHp:120
+Atk:12
+Def:9
+Agl:7
+Spd:7
+Technique 1: slash
+technique 2: fire arrow
+End
+Nom:Walter White
+MaxHp:80
+Atk:12
+Def:9
+Agl:12
+Spd:12
+Technique 1: greatest cook
+technique 2: components explosion
+End
+Nom:Thor
+MaxHp:150
+Atk:10
+Def:12
+Agl:7
+Spd:7
+Technique 1: mjolnir throw
+technique 2: lightning shock
+End
+Nom:rocket racoon
+MaxHp:90
+Atk:20
+Def:8
+Agl:10
+Spd:13
+Technique 1: bomb throw
+technique 2: healing ammo
+End
+Nom:tanjiro
+MaxHp:115
+Atk:12
+Def:8
+Agl:9
+Spd:8
+Technique 1: current slash
+technique 2: clear sky
+End
+Nom:Bowser
+MaxHp:150
+Atk:15
+Def:15
+Agl:5
+Spd:5
+Technique 1: flame breath
+technique 2: shell crush
+End
+Nom:Astérix
+MaxHp:100
+Atk:15
+Def:8
+Agl:9
+Spd:11
+Technique 1: magical potion
+technique 2: punch
+End
