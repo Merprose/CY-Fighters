@@ -1,1 +1,17 @@
 # Name,Type(DAMAGE,HEAL,BUFF,DEBUFF),Target(SELF,SINGLE_ENEMY,ALL_ENEMIES,SINGLE_ALLY,ALL_ALLIES),Value(int),Duration(turns),Cooldown(turns),Description
+red,DAMAGE,SINGLE_ENEMY,24,0,2, a red orb explodes on the enemy
+hollowpurple,SINGLE_ENEMY,DAMAGE, 35,0,4, a purple orb destroys everything on it's path especially the focused opponent
+slash,DAMAGE,SINGLE_ENEMY,17,0,1,slashes the opponent
+firearrow,DAMAGE,SINGLE_ENEMY,22,0,2,shoots a fire arrow at the opponent dealing great damage
+gunshot,DAMAGE,SINGLE_ENEMY,17,0,1,shoots the opponent
+components explosion,DAMAGE,ALL_ENEMIES,15,0,3,fuses chemical components to create an explosion
+mjolnirthrow,DAMAGE,SINGLE_ENEMY,15,0,1,throws myolnir at the opponent
+lightningshock,DAMAGE,SINGLE_ENEMY,25,0,3,summons lightning at the opponent
+bomb throw,DAMAGE,ALL_ENEMIES,9,0,1, throws a grenade at the enemy
+healing ammo,HEAL,SINGLE_ALLY,40,O,3,shoots a healing bullet at an ally
+current slash,DAMAGE,SINGLE_ENEMY,17,0,1,slash the opponent using the power of water 
+clear sky,DAMAGE,SINGLE_ENEMY,23,0,2,cuts the opponent in pieces using the might of the sun
+flame breath,DEBUFF,ALL_ENEMIES,8,2,3, bowser breathes fire at the opponent burning them
+shell crush,DAMAGE,SINGLE_ENEMY,18,0,2, bowser jumps and crashes on the opponent 
+magical potion,BUFF,SELF,10,1,2, asterix drinks the magical potion increasing his damage output dramatically
+punch,DAMAGE,SINGLE_ENEMY,25,0,3, asterix simply punches his opponent's nose
