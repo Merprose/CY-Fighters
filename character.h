@@ -30,88 +30,103 @@ int comparestring(char a[], char b[], int size){
     return 1;
 }
 
+void clearchararray(char array[],int size){
+    for (int i=0;i<size;i++){
+        array[i] = '\0';
+    }
+}
 
-int setattribute(char phrase[],int size,Character actualchar){
-    char start[3];
+
+int setattribute(char phrase[],int size,Character* pchar){
+    char start[4];
+    Character actualchar = *(pchar);
     int doublepoint = 0;
     char after[50];
-    for(int i =0;i<size;i++){
-        printf("%d",i);
-      // printf("%c",phrase[i]);
-        if (i<3){
-            
-            start[i] = phrase[i];
-        }
-        if (phrase[i] == ':'){
-            doublepoint = i;
+    clearchararray(start,4);
+    clearchararray(after,50);
+    int count = 0;
+    for (int i = 0; i<3;i++){
+        start[i] = phrase[i];
+    }
+    
+    while (phrase[count] != '\0' && phrase[count] != '\n'){
+        if (phrase[count] == ':'){
+            doublepoint = count+1;
         }
         if (doublepoint != 0){
-            after[i-doublepoint] = phrase[i];
+            after[count-doublepoint] = phrase[count];
+        }
+        count++;
+        //printf("%c", phrase[count]);
+    }
+    start[3] = '\0';
+    if (comparestring("Nom",start,3)){
+        int pos = 0;
+        while(after[pos] != '\0' && after[pos] != '\n'){
+            (*pchar).name[pos] = after[pos];
+            pos++;
         }
     }
-    printf("m");
-   printf("%s",start);
-    if (comparestring("Nom",phrase,3)){
+    else if (comparestring("Max",start,3)){
+        (*pchar).maxhp = atoi(after);
+    }
+    else if (comparestring("Atk",start,3)){
+        (*pchar).attack = atoi(after);
+    }
+    else if (comparestring("Def",start,3)){
+        (*pchar).defense = atoi(after);
+    }
+    else if (comparestring("Agl",start,3)){
+        (*pchar).agility = atoi(after);
+    }
+    else if (comparestring("Spd",start,3)){
+        (*pchar).speed = atoi(after);
+    }
+    else if (comparestring("Tec",start,3)){
         for (int i = 0; i<50;i++){
-            actualchar.name[i] = after[i];
+            (*pchar).technique1[i] = after[i];
         }
     }
-    else if (comparestring("Max",phrase,3)){
-        actualchar.maxhp = atoi(after);
-    }
-    else if (comparestring("Atk",phrase,3)){
-        actualchar.attack = atoi(after);
-    }
-    else if (comparestring("Def",phrase,3)){
-        actualchar.defense = atoi(after);
-    }
-    else if (comparestring("Agl",phrase,3)){
-        actualchar.agility = atoi(after);
-    }
-    else if (comparestring("Spd",phrase,3)){
-        actualchar.speed = atoi(after);
-    }
-    else if (comparestring("Tec",phrase,3)){
+    else if (comparestring("tec",start,3)){
         for (int i = 0; i<50;i++){
-            actualchar.technique1[i] = after[i];
+            (*pchar).technique2[i] = after[i];
         }
     }
-    else if (comparestring("tec",phrase,3)){
-        for (int i = 0; i<50;i++){
-            actualchar.technique2[i] = after[i];
-        }
-    }
-     else if (comparestring("End",phrase,3)){
+     else if (comparestring("End",start,3)){
+        clearchararray(start,4);
+        clearchararray(after,50);
         return 55;}
-    printf("hm");
+    //printf("str: %s\n",start);
+    clearchararray(phrase,50);
 }
 
 void getcharacters(Character* endtab){ 
     FILE* file = NULL;
     file = fopen(FILENAME,"r");
-    int a = fgetc(file);
     int actualpos = 0;
     int result = 0;
-    int size = 3;
-    while (a != EOF){
-        Character actualchar;
-        char phrase[200];
-        while (result != 55){
-            int count = 0;
-            while (a != 10)
-            {
-                phrase[count] = a; 
-                count++;
-                printf("%c",a);
-                a = fgetc(file);
-            }
-            a = fgetc(file);
-            result = setattribute(phrase,size,actualchar);
+    int size = 90;
+    char phrase[100];
+    int restart = 1;
+    Character actualchar;
+    Character* pchar = &actualchar;
+    fgets(phrase,100,file);
+    while (comparestring("EOF",phrase,3) != 1){
+        //printf("phrase: %s",phrase);
+        result = setattribute(phrase, size, pchar);
+        if (result == 55){
             endtab[actualpos] = actualchar;
-            printf("%s",phrase);
-            for (int j = 0;j<200;j++){
-                phrase[j] = '\0';
-            }
+            restart = 1;
+            actualpos++;
+            clearchararray((*pchar).name,50);
+            clearchararray((*pchar).technique1,50);
+            clearchararray((*pchar).technique2,50);
+
+            //printf("%s\n",actualchar.name);
+            //printf("%d\n",actualchar.maxhp);
         }
+        clearchararray(phrase,100);
+        printf("%s",phrase);
+        fgets(phrase,100,file);
     }
 }
