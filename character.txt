@@ -23,7 +23,7 @@ Def:9
 Agl:12
 Spd:12
 Technique 1:gunshot
-technique 2:componentsexplosion
+technique 2:components explosion
 End
 Nom:Thor
 MaxHp:150
