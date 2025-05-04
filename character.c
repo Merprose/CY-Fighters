@@ -11,36 +11,29 @@ int comparestring(char a[], char b[], int size){
 }
 
 void clearchararray(char array[],int size){
-    for (int i=0;i<size;i++){
+    if (size > 0){
+        for (int i=0;i<size;i++){
+            array[i] = '\0';
+            }
+    }
+    else {
+        int i = 0;
+        while (array[i] != '\0' && array[i] != '\n'){
         array[i] = '\0';
+        }
     }
 }
 
-void assignstats(char tab1[],char tab2[]){ // cette fonction utilise les virgules pour
-//trouver quel est la proprieté actuelle
-    int count = 0;
-    int canfound = 0;
-    int found;
-    char sec[200]
-   while(tab1[count] != '\n'){
-       while(found <= canfound){
-           if (found == canfound){
-            sec[count] = tab1[count]   
-           }
-           if (tab1[count] == ','){
-               found++;
-           }
-       }
-       switch (found){
-           int j=0;
-           case 1:
-            while(sec[j])
-            break;
-       }
-       canfound++;
-       count++;
-   } 
+void tabtotab(char tab1[], char tab2[]){
+    int i = 0;
+    clearchararray(tab2,0);
+    while (tab1[i] != '\0' && tab1[i] != '\n'){
+        tab2[i] = tab1[i];
+        i++;
+    }
 }
+
+
 
 int setattribute(char phrase[],Character* pchar){
     char start[4];
@@ -105,31 +98,78 @@ int setattribute(char phrase[],Character* pchar){
     clearchararray(phrase,50);
 }
 
+void settechniques(char phrase[],Technique* technique){
+    int canfound = 0, found = 0,i = 0,count = 0;
+    char sec[200];
+    while (phrase[i] != '\n' && phrase[i] != '\0' ){
+        if (found == canfound){
+            while(phrase[i] != ',' && phrase[i] != '\n' && phrase[i] != '\0'){
+                sec[count] = phrase[i];
+                i++;
+                count++;
+            }
+            switch(found){
+                case 1:
+                    clearchararray((*technique).type,30);
+                    tabtotab(sec,(*technique).type);
+                    break;
+                case 2:clearchararray((*technique).target,30);
+                    tabtotab(sec,(*technique).target);
+                    break;
+                case 3:
+                    (*technique).value = atoi(sec);
+                    break;
+                case 4:
+                    (*technique).duration = atoi(sec);
+                    break;
+                case 5:
+                    (*technique).cooldown = atoi(sec);
+                    break;
+                case 6:
+                    clearchararray((*technique).description,200);
+                    tabtotab(sec,(*technique).description);
+                    break;
+            }
+            clearchararray(sec,200);
+            count = 0;
+            canfound++;
+        }
+        if (phrase[i] == ','){
+            found++;
+        }
+        i++;
+    }
+}
+
 void gogotechniques(Character* pchar){
-    char name1[50]; 
-    char name2[50];
     char start[30];
     char phrase[200];
     char sec[200];
     int onefound = 0;
     int twofound = 0;
-    int i = 0;
     int stat = 1;
-    fgets(phrase,200,ULTSFILE);
-    while(comparestring(phrase,"End",3) == 0){
+    FILE* file = fopen(ULTSFILE,"r");
+    fgets(phrase,200,file);
+    while(comparestring(phrase,"End",3) == 0  && (twofound == 0 || onefound == 0)){
+        int i = 0;
         while(phrase[i] != '\0' && phrase[i] != ','&& phrase[i] != '\n'){
             sec[i] = phrase[i];
             i++;
         }
-        if (onefound == 0 && comparestring(phrase,*pchar->technique1).name) == 1){
-            
+
+        if (onefound == 0 && (comparestring(sec,(*pchar->technique1).name,50) == 1)){
+            onefound = 1;
+            settechniques(phrase,(*pchar).technique1);
         }
-        else if (twofound == 0 && comparestring(phrase,*pchar->technique2).name) == 1){
-        
+        else if (twofound == 0 && comparestring(sec,(*pchar->technique2).name,50) == 1){
+            twofound = 2;
+            settechniques(phrase,(*pchar).technique2);
         }
-        fgets(phrase,200,ULTSFILE);
+        clearchararray(phrase,200);
+        clearchararray(sec,200);
+        fgets(phrase,200,file);
     }
-    
+  
 }
 
 void getcharacters(Character* endtab){ 
@@ -147,6 +187,7 @@ void getcharacters(Character* endtab){
         //printf("phrase: %s",phrase);
         result = setattribute(phrase, pchar);
         if (result == 55){
+            gogotechniques(pchar);
             endtab[actualpos] = actualchar;
             restart = 1;
             actualpos++;
@@ -154,11 +195,9 @@ void getcharacters(Character* endtab){
             clearchararray((*pchar->technique1).name,50);
             clearchararray((*pchar->technique1).name,50);
 
-            //printf("%s\n",actualchar.name);
             //printf("%d\n",actualchar.maxhp);
         }
         clearchararray(phrase,100);
-        printf("%s",phrase);
         fgets(phrase,100,file);
     }
 }
@@ -167,16 +206,21 @@ int main() {
 	Character chars[CHARCOUNT];
 	getcharacters(chars);
 	for(int i=0; i<CHARCOUNT; i++) {
-		if (chars[i].name != NULL) {
+		if (chars[i].name[0] != '\0') {
 			printf("Nom: %s \n",chars[i].name);
-			printf("Special 1: %s \n",(*chars->technique1).name);
-			printf("Special 1: %s \n",(*chars->technique1).name);
-			printf("Special 2: %s \n",(*chars->technique2).name);
+			printf("Special 1: %s \n",chars[i].technique1->name);
+			printf("Special 1 type: %s \n",chars[i].technique1->type);
+			printf("Special 1 desc: %s \n",chars[i].technique1->description);
+			printf("Damage: %d \n",chars[i].technique1->value);
+			printf("Special 2: %s \n",chars[i].technique2->name);
+			printf("Special 2 desc: %s \n",chars[i].technique2->description);
+			printf("Damage: %d \n",chars[i].technique2->value);
 			printf("Hp: %d \n",chars[i].maxhp);
 			printf("Attack: %d \n",chars[i].attack);
 			printf("Defense: %d \n",chars[i].defense);
 			printf("Speed: %d \n",chars[i].speed);
 			printf("Agility: %d \n",chars[i].agility);
+			printf("\n");
 		}
 	}
 	return 0;
