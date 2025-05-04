@@ -18,6 +18,7 @@ typedef struct technique
     int duration;
     int cooldown;
     char description[200];
+    
 } Technique;
 
 
@@ -37,10 +38,14 @@ int comparestring(char a[], char b[], int size);
 
 void clearchararray(char array[],int size);
 
+void tabtotab(char tab1[], char tab2[]);
+
 void assignstats(char tab1[],char tab2[]);
 
 int setattribute(char phrase[],Character* pchar);
 
 void gogotechniques(Character* pchar);
+
+void settechniques(char phrase[],Technique* technique);
 
 void getcharacters(Character* endtab);
