@@ -6,6 +6,8 @@
     #define STDLIB
     #include <stdlib.h>
 #endif
+#ifndef CHARACTER_H 
+#define CHARACTER_H
 
 #define FILENAME "character.txt"
 #define ULTSFILE "technique.txt"
@@ -49,3 +51,5 @@ void gogotechniques(Character* pchar);
 void settechniques(char phrase[],Technique* technique);
 
 void getcharacters(Character* endtab);
+
+#endif
