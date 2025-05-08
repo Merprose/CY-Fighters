@@ -118,8 +118,6 @@ void display_team(const Team *team, const char* team_name_prompt) {
                         team->members[i].agility,  
                         team->members[i].speed     
                 );
-            // Displaying technique names (first one from the array if it exists)
-            // This assumes technique1[0] and technique2[0] are the primary ones
                 if (strlen(team->members[i].technique1[0].name) > 0) {
                         printf("    Technique 1: %s\n", team->members[i].technique1[0].name);
                 }
