@@ -13,7 +13,7 @@ static int read_line_safe(char *buffer, int size) {
     return 1;
 }
 
-void display_available_characters_for_team_selection(const Character all_chars[], int num_total_chars) {
+void display_available_characters(const Character all_chars[], int num_total_chars) {
     printf("\n--- Available Characters (Case-Sensitive Names) ---\n");
     int displayed_count = 0;
     for (int i = 0; i < num_total_chars; ++i) {
@@ -44,7 +44,7 @@ void select_team_members(Team *team, const Character all_chars[], int num_total_
         printf("Note: Character names are case-sensitive.\n");
 
     
-    display_available_characters_for_team_selection(all_chars, num_total_chars);
+    display_available_characters(all_chars, num_total_chars);
 
         for (int i = 0; i < MAX_TEAM_SIZE; ++i) {
                 int selected_successfully = 0;
