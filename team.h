@@ -13,8 +13,8 @@ typedef struct {
 } Team;
 
 
-void display_available_characters(const Character all_chars[], int num_total_chars);
-void select_team_members(Team *team, const Character all_chars[], int num_total_chars, const char* team_name);
-void display_team(const Team *team, const char* team_name);
+void display_available_characters( Character all_chars[], int num_total_chars);
+void select_team_members(Team *team,  Character all_chars[], int num_total_chars,  char* team_name);
+void display_team( Team *team,  char* team_name);
 
 #endif // TEAM_H
