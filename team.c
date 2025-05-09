@@ -4,7 +4,7 @@
 
 
 // function to read a line of input safely and remove newline
-static int read_line_safe(char *buffer, int size) {
+int read_line_safe(char *buffer, int size) {
     if (fgets(buffer, size, stdin) == NULL) {
         buffer[0] = '\0'; 
         return 0; 
@@ -13,7 +13,7 @@ static int read_line_safe(char *buffer, int size) {
     return 1;
 }
 
-void display_available_characters(const Character all_chars[], int num_total_chars) {
+void display_available_characters( Character all_chars[], int num_total_chars) {
     printf("\n--- Available Characters (Case-Sensitive Names) ---\n");
     int displayed_count = 0;
     for (int i = 0; i < num_total_chars; ++i) {
@@ -32,21 +32,17 @@ void display_available_characters(const Character all_chars[], int num_total_cha
         printf("No characters available for selection.\n");
     }
     printf("-------------------------------------------------\n");
-}
+    }
 
         
 
-void select_team_members(Team *team, const Character all_chars[], int num_total_chars, const char* team_name_prompt) {
+void select_team_members(Team *team, Character all_chars[], int num_total_chars, char* team_name_prompt) {
     team->current_size = 0;
     char input_name[50]; 
-
-        printf("\n--- %s: Select %d Characters ---\n", team_name_prompt, MAX_TEAM_SIZE);
-        printf("Note: Character names are case-sensitive.\n");
-
-    
+    printf("\n--- %s: Select %d Characters ---\n", team_name_prompt, MAX_TEAM_SIZE);
+    printf("Note: Character names are case-sensitive.\n");
     display_available_characters(all_chars, num_total_chars);
-
-        for (int i = 0; i < MAX_TEAM_SIZE; ++i) {
+    for (int i = 0; i < MAX_TEAM_SIZE; ++i) {
                 int selected_successfully = 0;
                 do {
                         printf("%s, pick character %d of %d (enter name exactly as listed): ", team_name_prompt, team->current_size + 1, MAX_TEAM_SIZE);
@@ -67,7 +63,7 @@ void select_team_members(Team *team, const Character all_chars[], int num_total_
                                 found_index = j;
                                 break;
                         }
-                }
+                        }    
 
                         if (found_index != -1) {
                         // Check if character is already in this team
@@ -99,7 +95,7 @@ void select_team_members(Team *team, const Character all_chars[], int num_total_
         printf("\n%s formation complete!\n", team_name_prompt);
 }
 
-void display_team(const Team *team, const char* team_name_prompt) {
+void display_team( Team *team, char* team_name_prompt) {
         if (!team) {
                 fprintf(stderr, "Error: Team structure is NULL for display.\n");
                 return;
