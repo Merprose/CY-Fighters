@@ -36,7 +36,7 @@ int display_main_menu() { // The main Menu
     return choice;
 }
 
-void display_all_characters_detailed(const Character all_chars[], int num_total_chars) {
+void display_all_characters_detailed( Character all_chars[], int num_total_chars) {
     clear_screen();
     printf("--- All Available Characters ---\n");
     for (int i = 0; i < num_total_chars; ++i) {
