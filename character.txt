@@ -131,7 +131,7 @@ Def:11
 Agl:8
 Spd:9
 Technique 1:harpoon launch
-technique 2:Time to hunt the whale
+technique 2:Time to hunt
 End
 Nom:Granddad
 MaxHp:120
