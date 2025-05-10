@@ -2,17 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
-// function to read a line of input safely and remove newline
-int read_line_safe(char *buffer, int size) {
-    if (fgets(buffer, size, stdin) == NULL) {
-        buffer[0] = '\0'; 
-        return 0; 
-    }
-    buffer[strcspn(buffer, "\n")] = '\0'; // Remove newline
-    return 1;
-}
-
 void display_available_characters( Character all_chars[], int num_total_chars) {
     printf("\n--- Available Characters (Case-Sensitive Names) ---\n");
     int displayed_count = 0;
@@ -46,12 +35,7 @@ void select_team_members(Team *team, Character all_chars[], int num_total_chars,
                 int selected_successfully = 0;
                 do {
                         printf("%s, pick character %d of %d (enter name exactly as listed): ", team_name_prompt, team->current_size + 1, MAX_TEAM_SIZE);
-
-                        if (!read_line_safe(input_name, sizeof(input_name))) {
-                                printf("Error reading input. Aborting team selection for %s.\n", team_name_prompt);
-                                return; // Exit if input fails
-                        }
-
+                        scanf("%s",input_name);
                         if (strlen(input_name) == 0) {
                                 printf("No name entered. Please try again.\n");
                                 continue;
