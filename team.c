@@ -2,6 +2,17 @@
 #include <stdio.h>
 #include <string.h>
 
+
+// function to read a line of input safely and remove newline
+int read_line_safe(char *buffer, int size) {
+    if (fgets(buffer, size, stdin) == NULL) {
+        buffer[0] = '\0'; 
+        return 0; 
+    }
+    buffer[strcspn(buffer, "\n")] = '\0'; // Remove newline
+    return 1;
+}
+
 void display_available_characters( Character all_chars[], int num_total_chars) {
     printf("\n--- Available Characters (Case-Sensitive Names) ---\n");
     int displayed_count = 0;
@@ -25,17 +36,22 @@ void display_available_characters( Character all_chars[], int num_total_chars) {
 
         
 
-void select_team_members(Team *team, Character all_chars[], int num_total_chars, char* team_name_prompt) {
+void select_team_members(Team *team, Character all_chars[], int num_total_chars, char* team_name_prompt,int team_size) {
     team->current_size = 0;
     char input_name[50]; 
-    printf("\n--- %s: Select %d Characters ---\n", team_name_prompt, MAX_TEAM_SIZE);
+    printf("\n--- %s: Select %d Characters ---\n", team_name_prompt,team_size);
     printf("Note: Character names are case-sensitive.\n");
     display_available_characters(all_chars, num_total_chars);
-    for (int i = 0; i < MAX_TEAM_SIZE; ++i) {
+    for (int i = 0; i < team_size; ++i) {
                 int selected_successfully = 0;
                 do {
-                        printf("%s, pick character %d of %d (enter name exactly as listed): ", team_name_prompt, team->current_size + 1, MAX_TEAM_SIZE);
-                        scanf("%s",input_name);
+                        printf("%s, pick character %d of %d (enter name exactly as listed): ", team_name_prompt, team->current_size + 1, team_size);
+
+                        if (!read_line_safe(input_name, sizeof(input_name))) {
+                                printf("Error reading input. Aborting team selection for %s.\n", team_name_prompt);
+                                return; // Exit if input fails
+                        }
+
                         if (strlen(input_name) == 0) {
                                 printf("No name entered. Please try again.\n");
                                 continue;
@@ -71,8 +87,8 @@ void select_team_members(Team *team, Character all_chars[], int num_total_chars,
                                 printf("Character '%s' not found. Please ensure the name is entered exactly as listed (case-sensitive) and try again.\n", input_name);
                                 printf("Available characters are listed above.\n");
                         }
-                } while (!selected_successfully && team->current_size < MAX_TEAM_SIZE); 
-                if (!selected_successfully && team->current_size < MAX_TEAM_SIZE) {
+                } while (!selected_successfully && team->current_size < team_size); 
+                if (!selected_successfully && team->current_size < team_size) {
                         printf("Failed to select a character. Continuing selection if slots remain.\n");
                 }
         }
@@ -108,3 +124,37 @@ void display_team( Team *team, char* team_name_prompt) {
         }
         printf("-------------------\n");
 }
+void auto_select_team_members(Team *team, Character all_chars[], int num_total_chars, char* team_name_prompt,int team_size) {
+    if (team == NULL) {
+        fprintf(stderr, "Error: Team pointer is NULL in auto_select_team_members.\n");
+        return;
+    }
+    if (all_chars == NULL || num_total_chars <= 0) {
+        printf("No characters available to select from for %s.\n", team_name_prompt);
+        team->current_size = 0;
+        return;
+    }
+    team->current_size = 0; 
+    while (team->current_size < team_size) {
+        if (team->current_size >= num_total_chars) {
+             printf("All available unique characters have been selected for %s.\n", team_name_prompt);
+             break;
+        }
+        int random_index = rand() % num_total_chars;
+        // Check if this randomly selected character is already in the team
+        int already_in_team = 0;
+        // Iterate through the members *currently* in the team
+        for (int k = 0; k < team->current_size; ++k) {
+            if (strcmp(team->members[k].name, all_chars[random_index].name) == 0) {
+                already_in_team = 1; 
+                break; 
+            }
+        }
+        if (!already_in_team) {
+            
+             team->members[team->current_size] = all_chars[random_index];
+             printf("'%s' added to %s.\n", all_chars[random_index].name, team_name_prompt);
+             team->current_size++; 
+        }
+    } 
+} 
