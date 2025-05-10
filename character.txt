@@ -133,13 +133,13 @@ Spd:9
 Technique 1:harpoon launch
 technique 2:Time to hunt the whale
 End
-Nom:Napoleon
+Nom:Granddad
 MaxHp:120
 Atk:15
 Def:9
 Agl:5
 Spd:11
-Technique 1:cannon shot
-technique 2:motivate the troops
+Technique 1:granddad's loyal belt
+technique 2:granddad's threats
 End
 EOF
