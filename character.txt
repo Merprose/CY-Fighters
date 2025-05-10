@@ -70,4 +70,76 @@ Spd:11
 Technique 1:magicalpotion
 technique 2:punch
 End
+Nom:Guts
+MaxHp:125
+Atk:15
+Def:5
+Agl:9
+Spd:12
+Technique 1:heavy slash
+technique 2:outrage
+End
+Nom:Seiya
+MaxHp:120
+Atk:12
+Def:9
+Agl:7
+Spd:7
+Technique 1:pegasus kick
+technique 2:pegasus meteor fist
+End
+Nom:Poison Ivy
+MaxHp:90
+Atk:14
+Def:8
+Agl:12
+Spd:12
+Technique 1:ivy whip
+technique 2: poisonous gas
+End
+Nom:iron man
+MaxHp:110
+Atk:13
+Def:12
+Agl:9
+Spd:9
+Technique 1:energy beam
+technique 2:reinforced suit
+End
+Nom:Robinson Crusoe
+MaxHp:100
+Atk:14
+Def:8
+Agl:10
+Spd:13
+Technique 1:coconut throw
+technique 2:last resort
+End
+Nom:tanjiro
+MaxHp:115
+Atk:12
+Def:8
+Agl:9
+Spd:8
+Technique 1:currentslash
+technique 2:clearsky
+End
+Nom:Captain Ahab
+MaxHp:130
+Atk:13
+Def:11
+Agl:8
+Spd:9
+Technique 1:harpoon launch
+technique 2:Time to hunt the whale
+End
+Nom:Napoleon
+MaxHp:120
+Atk:15
+Def:9
+Agl:5
+Spd:11
+Technique 1:cannon shot
+technique 2:motivate the troops
+End
 EOF
