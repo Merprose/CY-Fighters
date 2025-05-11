@@ -1,34 +1,34 @@
 # Name,Type(DAMAGE,HEAL,BUFF,DEBUFF),Target(SELF,SINGLE_ENEMY,ALL_ENEMIES,SINGLE_ALLY,ALL_ALLIES),Effect(NONE,BLEED,BURN,POISON,ATTACKLOWER,HEAL,ATTACKUP,DEFENSEUP,AGILITYUP,)Value(int),Duration(turns),Cooldown(turns),Description
-red,DAMAGE,SINGLE_ENEMY,NONE,24,0,2, a red orb explodes on the enemy
-hollowpurple,DAMAGE,SINGLE_ENEMY,NONE, 35,0,4, a purple orb destroys everything on it's path especially the focused opponent
-slash,DAMAGE,SINGLE_ENEMY,NONE,17,0,1,slashes the opponent
-firearrow,DAMAGE,SINGLE_ENEMY,NONE,22,0,2,shoots a fire arrow at the opponent dealing great damage
-gunshot,DAMAGE,SINGLE_ENEMY,NONE,17,0,1,shoots the opponent
-components explosion,DAMAGE,ALL_ENEMIES,NONE,15,0,3,fuses chemical components to create an explosion
-mjolnirthrow,DAMAGE,SINGLE_ENEMY,NONE,15,0,1,throws myolnir at the opponent
-lightningshock,DAMAGE,SINGLE_ENEMY,NONE,25,0,3,summons lightning at the opponent
-bombthrow,DAMAGE,ALL_ENEMIES,NONE,9,0,1, throws a grenade at the enemy
-healingammo,HEAL,SINGLE_ALLY,HEAL,40,O,3,shoots a healing bullet at an ally
-currentslash,DAMAGE,SINGLE_ENEMY,NONE,17,0,1,slash the opponent using the power of water 
-clearsky,DAMAGE,SINGLE_ENEMY,NONE,23,0,2,cuts the opponent in pieces using the might of the sun
-flamebreath,DEBUFF,ALL_ENEMIES,BURN,8,2,3, bowser breathes fire at the opponent burning them inflicting 8 damage each turn for 2 turns
-shellcrush,DAMAGE,SINGLE_ENEMY,NONE,18,0,2, bowser jumps and crashes on the opponent 
-magicalpotion,BUFF,SELF,ATTACKUP,10,1,2, asterix drinks the magical potion increasing his damage output dramatically
-punch,DAMAGE,SINGLE_ENEMY,NONE,25,0,3, asterix simply punches his opponent's nose
-heavy slash,DAMAGE,SINGLE_ENEMY,NONE,22,0,2, guts uses his massive sword to cut the opponent in 2
-outrage,DAMAGE,ALL_ENEMIES,NONE,11,0,2,guts enters in a fit of rage and slashes everywhere dealing damage to every opponents
-pegasus kick,DAMAGE,SINGLE_ENEMY,NONE,26,0,2, seiya uses the power of the pegasus constellation to land a hard kick on his opponent
-pegasus meteor fist,DAMAGE,SINGLE_ENEMY,NONE,33,0,4,seiya uses all his might to land a heavy punch as fast as light
-ivy whip,DAMAGE,SINGLE_ENEMY,NONE,20,0,2, poison ivy makes an ivy grow and whips an opponent with it
-poisonous gas,DEBUFF,ALL_ENEMIES,POISON,5,3,3, poison ivy's plants emit toxins poisoning the opponents
-energy beam,DAMAGE,SINGLE_ENEMY,NONE,27,0,2, Iron man fires an energy beam at you using his suit
-reinfoced suit,BUFF,SELF,DEFENSEUP,8,2,2, iron man reinforces his suit increasing his defense
-coconut throw,DAMAGE,SINGLE_ENEMY,NONE,26,0,2, he throws a hard coconut on your head it hurts
-last resort,BUFF,SELF,AGILITYUP,12,2,2,realizing that if he doesn't flee he will die robinson crusoe increases his agility dramatically
-spiteful talk,DAMAGE,SINGLE_ENEMY,NONE,20,0,2, he's so rude it actually hurts the opponent mentally
-unfair jury,DAMAGE,SINGLE_ENEMY,NONE,30,0,3, he judges you but as he's completely bias he immediately declares you guilty
-harpoon launch,DEBUFF,SINGLE_ENEMY,BLEED,15,2,3, ahabs crew launches a harpoon at the opponent making him bleed profusely
-Time to hunt,BUFF,ALL_ALLIES,ATTACKUP,4,1,2,ahab's crew finally sees the opponent and declare the beginnning of the hunt increasing the attack of every ally
-granddad's loyal belt,DAMAGE,SINGLE_ENEMY,NONE,18,0,1,he whips the opponent with his belt
-granddad's threats,DEBUFF,ALL_ENEMIES,ATTACKLOWER,4,2,3, granddad's threats are so menacing the opponents get weaker because of them
+red,DAMAGE,SINGLE_ENEMY,NONE,24,0,2,A red orb explodes on the enemy
+hollowpurple,DAMAGE,SINGLE_ENEMY,NONE, 35,0,4,A purple orb destroys everything on it's path especially the focused opponent
+slash,DAMAGE,SINGLE_ENEMY,NONE,17,0,1,Slashes the opponent
+firearrow,DAMAGE,SINGLE_ENEMY,NONE,22,0,2,Shoots a fire arrow at the opponent dealing great damage
+gunshot,DAMAGE,SINGLE_ENEMY,NONE,17,0,1,Shoots the opponent
+components explosion,DAMAGE,ALL_ENEMIES,NONE,15,0,3,Fuses chemical components to create an explosion
+mjolnirthrow,DAMAGE,SINGLE_ENEMY,NONE,15,0,1,Throws myolnir at the opponent
+lightningshock,DAMAGE,SINGLE_ENEMY,NONE,25,0,3,Summons lightning at the opponent
+bombthrow,DAMAGE,ALL_ENEMIES,NONE,9,0,1,Throws a grenade at the enemy
+healingammo,HEAL,SINGLE_ALLY,HEAL,40,O,3,Shoots a healing bullet at an ally
+currentslash,DAMAGE,SINGLE_ENEMY,NONE,17,0,1,Slashes the opponent using the power of water 
+clearsky,DAMAGE,SINGLE_ENEMY,NONE,23,0,2,Cuts the opponent in pieces using the might of the sun
+flamebreath,DEBUFF,ALL_ENEMIES,BURN,8,2,3,Bowser breathes fire at the opponent burning them inflicting 8 damage each turn for 2 turns
+shellcrush,DAMAGE,SINGLE_ENEMY,NONE,18,0,2,Bowser jumps and crashes on the opponent 
+magicalpotion,BUFF,SELF,ATTACKUP,10,1,2,Astérix drinks the magical potion increasing his damage output dramatically
+punch,DAMAGE,SINGLE_ENEMY,NONE,25,0,3,Astérix simply punches his opponent's nose
+heavy slash,DAMAGE,SINGLE_ENEMY,NONE,22,0,2,Guts uses his massive sword to cut the opponent in 2
+outrage,DAMAGE,ALL_ENEMIES,NONE,11,0,2,Guts enters in a fit of rage and slashes everywhere dealing damage to every opponents
+pegasus kick,DAMAGE,SINGLE_ENEMY,NONE,26,0,2,Seiya uses the power of the pegasus constellation to land a hard kick on his opponent
+pegasus meteor fist,DAMAGE,SINGLE_ENEMY,NONE,33,0,4,Seiya uses all his might to land a heavy punch as fast as light
+ivy whip,DAMAGE,SINGLE_ENEMY,NONE,20,0,2,Poison ivy makes an ivy grow and whips an opponent with it
+poisonous gas,DEBUFF,ALL_ENEMIES,POISON,5,3,3,Poison ivy's plants emit toxins poisoning the opponents
+energy beam,DAMAGE,SINGLE_ENEMY,NONE,27,0,2,Iron man fires an energy beam at you using his suit
+reinfoced suit,BUFF,SELF,DEFENSEUP,8,2,2,Iron man reinforces his suit increasing his defense
+coconut throw,DAMAGE,SINGLE_ENEMY,NONE,26,0,2,Robinson Crusoé throws a hard coconut on your head it hurts
+last resort,BUFF,SELF,AGILITYUP,12,2,2,Realizing that if he doesn't flee he will die robinson crusoe increases his agility dramatically
+spiteful talk,DAMAGE,SINGLE_ENEMY,NONE,20,0,2,His way of speech is so rude it actually hurts the opponent mentally
+unfair jury,DAMAGE,SINGLE_ENEMY,NONE,30,0,3,Uncle Ruckus judges you but as he's completely biased he immediately declares you guilty
+harpoon launch,DEBUFF,SINGLE_ENEMY,BLEED,15,2,3,Ahab's crew launches a harpoon at the opponent making him bleed profusely
+Time to hunt,BUFF,ALL_ALLIES,ATTACKUP,4,1,2,Ahab's crew finally sees the opponent and declare the beginnning of the hunt increasing the attack of every ally
+granddad's loyal belt,DAMAGE,SINGLE_ENEMY,NONE,18,0,1,Granddad whips the opponent with his belt
+granddad's threats,DEBUFF,ALL_ENEMIES,ATTACKLOWER,4,2,3,Granddad's threats are so menacing the opponents get weaker because of them
 End
