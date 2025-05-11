@@ -176,6 +176,6 @@ void display_character_actions(const Character* combatant, const char* player_id
     } else {
         printf("3. (No Technique 2)\n");
     }
-    printf("5. Forfeit Turn / Do Nothing\n");
+    printf("4. Forfeit Turn / Do Nothing\n");
     printf("%s (%s), choose action: ", player_identifier_string, combatant->name);
 }
