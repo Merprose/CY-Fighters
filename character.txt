@@ -1,7 +1,7 @@
 Nom:Satoru Gojo
 MaxHp:100
 Atk:15
-Def:7
+Def:4
 Agl:9
 Spd:10
 Technique 1:red
@@ -10,7 +10,7 @@ End
 Nom:Sukuna
 MaxHp:120
 Atk:12
-Def:9
+Def:5
 Agl:7
 Spd:7
 Technique 1:slash
@@ -19,7 +19,7 @@ End
 Nom:Walter White
 MaxHp:80
 Atk:12
-Def:9
+Def:5
 Agl:12
 Spd:12
 Technique 1:gunshot
@@ -28,8 +28,8 @@ End
 Nom:Thor
 MaxHp:150
 Atk:10
-Def:12
-Agl:7
+Def:5
+Agl:9
 Spd:7
 Technique 1:mjolnirthrow
 technique 2:lightningshock
@@ -37,7 +37,7 @@ End
 Nom:rocket racoon
 MaxHp:90
 Atk:20
-Def:8
+Def:3
 Agl:10
 Spd:13
 Technique 1:bombthrow
@@ -46,7 +46,7 @@ End
 Nom:tanjiro
 MaxHp:115
 Atk:12
-Def:8
+Def:3
 Agl:9
 Spd:8
 Technique 1:currentslash
@@ -55,7 +55,7 @@ End
 Nom:Bowser
 MaxHp:150
 Atk:15
-Def:15
+Def:6
 Agl:5
 Spd:5
 Technique 1:flamebreath
@@ -64,7 +64,7 @@ End
 Nom:Astérix
 MaxHp:100
 Atk:15
-Def:8
+Def:3
 Agl:9
 Spd:11
 Technique 1:magicalpotion
@@ -73,7 +73,7 @@ End
 Nom:Guts
 MaxHp:125
 Atk:15
-Def:5
+Def:3
 Agl:9
 Spd:12
 Technique 1:heavy slash
@@ -82,7 +82,7 @@ End
 Nom:Seiya
 MaxHp:120
 Atk:12
-Def:9
+Def:4
 Agl:7
 Spd:7
 Technique 1:pegasus kick
@@ -91,7 +91,7 @@ End
 Nom:Poison Ivy
 MaxHp:90
 Atk:14
-Def:8
+Def:3
 Agl:12
 Spd:12
 Technique 1:ivy whip
@@ -100,7 +100,7 @@ End
 Nom:iron man
 MaxHp:110
 Atk:13
-Def:12
+Def:5
 Agl:9
 Spd:9
 Technique 1:energy beam
@@ -109,7 +109,7 @@ End
 Nom:Robinson Crusoe
 MaxHp:100
 Atk:14
-Def:8
+Def:4
 Agl:10
 Spd:13
 Technique 1:coconut throw
@@ -118,7 +118,7 @@ End
 Nom:Uncle Ruckus
 MaxHp:130
 Atk:12
-Def:10
+Def:4
 Agl:7
 Spd:5
 Technique 1:spiteful talk
@@ -127,7 +127,7 @@ End
 Nom:Captain Ahab
 MaxHp:130
 Atk:13
-Def:11
+Def:5
 Agl:8
 Spd:9
 Technique 1:harpoon launch
@@ -136,7 +136,7 @@ End
 Nom:Granddad
 MaxHp:120
 Atk:15
-Def:9
+Def:4
 Agl:5
 Spd:11
 Technique 1:granddad's loyal belt
