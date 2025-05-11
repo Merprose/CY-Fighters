@@ -89,7 +89,11 @@ void typetargettostring(char type[],char target[],char newtype[],char newtarget[
             tabtotab("Unknown Buff", newtype);
 		}
 	}
-		
+	else if (comparestring(type,"DEBUFF",7)){
+		if (comparestring(effect.name,"ATTACKLOWER",11)){
+			tabtotab("Attack Debuff",newtype);
+		}
+	}
         else if (comparestring(effect.name,"BLEED",5) || comparestring(effect.name,"BURN",4) || comparestring(effect.name,"POISON",6)){
             char temp_debuff_type[60];
             sprintf(temp_debuff_type, "%s Debuff", effect.name);
