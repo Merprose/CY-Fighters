@@ -95,7 +95,7 @@ Def:8
 Agl:12
 Spd:12
 Technique 1:ivy whip
-technique 2: poisonous gas
+technique 2:poisonous gas
 End
 Nom:iron man
 MaxHp:110
