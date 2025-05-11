@@ -1,29 +1,26 @@
-# CY-Fighters
+# CY-Fighters A Terminal-Based Fighting Game
 
 A turn-based fighting game implemented in C for the terminal. Developed as part of the préING1 curriculum at CY Tech (2024-2025). Players assemble teams of fighters and battle against another player or the CPU, utilizing unique stats and special techniques loaded from external files.
-## Description
 
-CY-Fighters is a command-line based game where two teams of fighters clash in turn-based combat. The core focus of the project is on data management through files, C structures, and creating an ergonomic user interface within the limitations of a standard terminal.
+# How to Play: A CY-Fighters Tutorial
+This tutorial will guide you through compiling, running, and playing CY-Fighters.
 
-Each fighter possesses distinct characteristics (HP, Attack, Defense, Agility, Speed) and can use both basic attacks and unique special techniques. The turn order is determined by fighter speed, and combat continues until all fighters on one team are knocked out (HP <= 0).
+Prerequisites:
+Before you begin, ensure you have the following installed on your system:
+- A C compiler (e.g., GCC)
+- The make utility (The game includes a Makefile to simplify the compilation process.)
 
-## Features
+1. Open your terminal.
 
-*   **Team-Based Combat:** Assemble a team of fighters to battle another team.
-*   **Turn-Based System:** Actions are taken sequentially based on fighter speed.
-*   **Character Stats:** Fighters have unique stats influencing their performance (HP, Max HP, Attack, Defense, Agility, Speed).
-*   **Special Techniques:** Fighters can use powerful special moves with various effects (damage, buffs, debuffs), durations, and cooldowns.
-*   **Data-Driven:** Fighter stats and special techniques are defined and loaded from external text files, allowing for easy modification and expansion.
-*   **Text-Based Interface:** All gameplay occurs within the terminal, designed for clarity and usability.
-*   **1v1 or 1vCPU:** Play against another human player or challenge the computer AI (with potential difficulty levels).
-*   **Temporary Effects:** Special techniques can apply temporary status effects (positive or negative) to fighters.
+2. Navigate to the directory where you have saved the CY-Fighters game files (including Makefile, *.c, *.h, and the .txt data files).
 
-## Interface Preview
+3. Compile the game by running the following "make" command:
 
-The game interface is rendered entirely in the terminal. It aims to clearly display:
-*   Both teams with their fighters.
-*   Current HP / Max HP for each fighter (potentially as a bar).
-*   Indicators for active status effects.
-*   Whose turn it is.
-*   Available actions (Attack, Techniques).
-*   Prompts for selecting actions and targets.
+4. Run the game using the following command: "./cyfighters" (for linux) "cyfighters" (for windows)
+
+# Tips for Playing
+Case Sensitivity: When selecting characters for your team, remember that names are case-sensitive. You must enter them exactly as shown in the "Available Characters" list.
+Exact Names: Partial names will not work; you need to type the full character name.
+Follow Prompts: Pay attention to on-screen prompts for guidance on what to do next.
+
+Enjoy playing CY-Fighters!
