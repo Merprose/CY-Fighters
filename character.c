@@ -180,6 +180,10 @@ void gogotechniques(Character* pchar){
     int stat = 1;
     clearchararray(sec,200);
     FILE* file = fopen(ULTSFILE,"r");
+    if (file == NULL){
+        printf("no file");
+        exit("42");
+    }
     fgets(phrase,200,file);
     while(comparestring(phrase,"End",3) == 0  && (twofound == 0 || onefound == 0)){
         int i = 0;
@@ -210,6 +214,10 @@ void gogotechniques(Character* pchar){
 void getcharacters(Character* endtab){ 
     FILE* file = NULL;
     file = fopen(FILENAME,"r");
+    if (file == NULL){
+        printf("no file");
+        exit("42");
+    }
     int actualpos = 0;
     int result = 0;
     int size = 90;
