@@ -12,7 +12,7 @@
 
 #define FILENAME "character.txt"
 #define ULTSFILE "technique.txt"
-
+#define MAX_CHARACTERS 20  
 
 typedef struct effects 
 {
@@ -29,7 +29,7 @@ typedef struct technique
     int value;
     int duration;
     int cooldown;
-    int oncooldown;
+    int oncooldown; 
     Effects effect;
     char description[200];
     
@@ -45,18 +45,17 @@ typedef struct character
     int agility;
     int speed;
     Effects effects[EFFECTCOUNT];
-    Technique technique1[50];
-    Technique technique2[50];
-    char team[5];
+    Technique technique1[1]; 
+    Technique technique2[1]; 
+    char team[5]; 
 } Character;
 
-int comparestring(char a[], char b[], int size);
+int comparestring(const char a[], const char b[], int size);
 
 void clearchararray(char array[],int size);
 
 void tabtotab(char tab1[], char tab2[]);
 
-void assignstats(char tab1[],char tab2[]);
 
 int setattribute(char phrase[],Character* pchar);
 
@@ -64,6 +63,6 @@ void gogotechniques(Character* pchar);
 
 void settechniques(char phrase[],Technique* technique);
 
-void getcharacters(Character* endtab);
+void getcharacters(Character* endtab); 
 
 #endif

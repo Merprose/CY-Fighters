@@ -1,65 +1,71 @@
-
 #include "character.h"
+#include "team.h"
 #include "combat.h"
-#define CHARCOUNT 8
+#include "ui.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 
 int getactualspeed(Character chara){
-	int speed = 1;
+	int speed_mod = 0;
 	for (int i = 0;i<EFFECTCOUNT;i++){
 		if (comparestring(chara.effects[i].name,"speed",5)){
-			speed = chara.effects[i].value;
+			speed_mod = chara.effects[i].value;
+            break;
 		}
 	}
-	if (chara.speed + speed < 0){
+	if (chara.speed + speed_mod < 0){
 		return 0;
 	}
-	return chara.speed + speed;
+	return chara.speed + speed_mod;
 }
 
 int getactualagility(Character chara){
-	int agility = 0;
+	int agility_mod = 0;
 	for (int i = 0;i<EFFECTCOUNT;i++){
 		if (comparestring(chara.effects[i].name,"agility",7)){
-			agility = chara.effects[i].value;
+			agility_mod = chara.effects[i].value;
+            break;
 		}
 	}
-	if (chara.agility + agility < 0){
+	if (chara.agility + agility_mod < 0){
 		return 0;
 	}
-	return chara.agility + agility;
+	return chara.agility + agility_mod;
 }
 
 int getactualattack(Character chara){
-	int attack = 0;
+	int attack_mod = 0;
 	for (int i = 0;i<EFFECTCOUNT;i++){
 		if (comparestring(chara.effects[i].name,"attack",6)){
-			attack = chara.effects[i].value;
+			attack_mod = chara.effects[i].value;
 			break;
 		}
 	}
-	if (chara.attack + attack < 0){
+	if (chara.attack + attack_mod < 0){
 		return 0;
 	}
-	return chara.attack + attack;
+	return chara.attack + attack_mod;
 }
 int getactualdefense(Character chara){
-	int defense = 0;
+	int defense_mod = 0;
 	for (int i = 0;i<EFFECTCOUNT;i++){
 		if (comparestring(chara.effects[i].name,"defense",7)){
-			defense = chara.effects[i].value;
+			defense_mod = chara.effects[i].value;
+            break;
 		}
 	}
-	if (chara.defense + defense < 0){
+	if (chara.defense + defense_mod < 0){
 		return 0;
 	}
-	return chara.defense + defense;
+	return chara.defense + defense_mod;
 }
 
 void typetargettostring(char type[],char target[],char newtype[],char newtarget[],Effects effect){
-	char name[50];
 	clearchararray(newtype,50);
 	clearchararray(newtarget,50);
-	clearchararray(name,50);
+
 	if (comparestring(type,"DAMAGE",6)){
 		tabtotab("Damage",newtype);
 	}
@@ -68,445 +74,503 @@ void typetargettostring(char type[],char target[],char newtype[],char newtarget[
 	}
 	else if (comparestring(type,"BUFF",5)){
 		if (comparestring(effect.name,"ATTACKUP",9)){
-			tabtotab("attack buff",newtype);
+			tabtotab("Attack Buff",newtype);
 		}
 		else if (comparestring(effect.name,"DEFENSEUP",10)){
-			tabtotab("defense buff",newtype);
+			tabtotab("Defense Buff",newtype);
 		}
 		else if (comparestring(effect.name,"AGILITYUP",9)){
-			tabtotab("agility buff",newtype);
+			tabtotab("Agility Buff",newtype);
 		}
 		else if (comparestring(effect.name,"SPEEDUP",8)){
-			tabtotab("speed buff",newtype);
+			tabtotab("Speed Buff",newtype);
 		}
 		else {
-			printf("Effect not found");
-			exit(42);
+            tabtotab("Unknown Buff", newtype);
 		}
 	}
 	else if (comparestring(type,"DEBUFF",7)){
-		if (comparestring(effect.name,"ATTACKDOWN",11)){
-			tabtotab("attack debuff",newtype);
+		if (comparestring(effect.name,"ATTACKLOWER",11)){
+			tabtotab("Attack Debuff",newtype);
 		}
-		else if (comparestring(effect.name,"DEFENSEDOWN",12)){
-			tabtotab("defense debuff",newtype);
-		}
-		else if (comparestring(effect.name,"AGILITYDOWN",11)){
-			tabtotab("agility debuff",newtype);
-		}
-		else if (comparestring(effect.name,"SPEEDDOWN",12)){
-			tabtotab("speed debuff",newtype);
-		}
+        else if (comparestring(effect.name,"BLEED",5) || comparestring(effect.name,"BURN",4) || comparestring(effect.name,"POISON",6)){
+            char temp_debuff_type[60];
+            sprintf(temp_debuff_type, "%s Debuff", effect.name);
+            tabtotab(temp_debuff_type, newtype);
+        }
 		else {
-			printf("Effect not found");
-			exit(42);
+            tabtotab("Unknown Debuff", newtype);
 		}
 	}
+    else {
+        tabtotab("Unknown Type", newtype);
+    }
+
 	if (comparestring(target,"SELF",5)){
-		tabtotab("yourself",newtarget);
+		tabtotab("Yourself",newtarget);
 	}
 	else if (comparestring(target,"SINGLE_ENEMY",14)){
-		tabtotab("one enemy",newtarget);
+		tabtotab("One Enemy",newtarget);
 	}
 	else if (comparestring(target,"ALL_ENEMIES",12)){
-		tabtotab("all enemies",newtarget);
+		tabtotab("All Enemies",newtarget);
 	}
 	else if (comparestring(target,"SINGLE_ALLY",13)){
-		tabtotab("one ally",newtarget);
+		tabtotab("One Ally",newtarget);
 	}
 	else if (comparestring(target,"ALL_ALLIES",11)){
-		tabtotab("all allies",newtarget);
+		tabtotab("All Allies",newtarget);
 	}
-	
+    else {
+        tabtotab("Unknown Target", newtarget);
+    }
+
 }
 
-int teamalive(Character* team, int size){
-	int total = 0;
-	for (int i = 0;i<size;i++){
-		if (team[i].hp <= 0){
-			total++;
+int teamalive(Character* team_members, int team_actual_size){
+	if (!team_members || team_actual_size <= 0) return 0;
+	for (int i = 0;i<team_actual_size;i++){
+		if (team_members[i].hp > 0){
+			return 1;
 		}
 	}
-	if (total == size){
-		return 0;
-	}
-	return 1;
+	return 0;
 }
-void getorder(Character* redteam, Character* blueteam,int size,Character** sortorder){
-	int count = 0;
-	Character* pmaxspeed;
-	Character* temp;
-	int pos = 0;
-	if (sortorder == NULL){
-		printf("Not enough memory");
-		exit(42);
-	}
-	for (int i = 0; i<size;i++){
-		if (i<size/2){
-			sortorder[i] = &redteam[i];
-		}
-		else {
-			sortorder[i] = &blueteam[i-(size/2)];
-		}
-	}
 
-	for (int i = 0; i<size;i++){
-		pmaxspeed = sortorder[count];
-		for(int j = count;j<size;j++){
-			if (getactualspeed(*pmaxspeed) <= getactualspeed(*sortorder[j])){
-				pmaxspeed = sortorder[j];
-				pos = j;
-			}
+void getorder(Team* redteam_struct, Team* blueteam_struct, Character** sortorder, int* actual_total_combatants_ptr){
+    if (!redteam_struct || !blueteam_struct || !sortorder || !actual_total_combatants_ptr) {
+        if (actual_total_combatants_ptr) *actual_total_combatants_ptr = 0;
+        return;
+    }
+    int k = 0;
+
+    for (int i = 0; i < redteam_struct->current_size; i++){
+        sortorder[k++] = &redteam_struct->members[i];
+    }
+    for (int i = 0; i < blueteam_struct->current_size; i++){
+        sortorder[k++] = &blueteam_struct->members[i];
+    }
+    *actual_total_combatants_ptr = k;
+
+	for (int i = 0; i < k - 1; i++){
+		for(int j = 0; j < k - i - 1; j++){
+            if (sortorder[j] && sortorder[j+1]) {
+			    if (getactualspeed(*(sortorder[j])) < getactualspeed(*(sortorder[j+1]))){
+				    Character* temp = sortorder[j];
+				    sortorder[j] = sortorder[j+1];
+				    sortorder[j+1] = temp;
+			    }
+            }
 		}
-		temp = sortorder[count];
-		sortorder[count] = pmaxspeed;
-		sortorder[pos] = temp;
-		count++;
 	}
 }
 
 void doeffect(Character* target){
+    if (!target) return;
 	for (int i = 0;i<EFFECTCOUNT;i++){
 		if (comparestring(target->effects[i].name,"NONE",4) == 0){
 			target->effects[i].duration--;
-			if (target->effects[i].duration <= 0){
-				tabtotab("NONE",target->effects[i].name);
-				target->effects[i].value = 0;
-				target->effects[i].duration = 0;
-			}
-			if (comparestring(target->effects[i].name,"BLEED",6) || comparestring(target->effects[i].name,"BURN",4)
-			|| comparestring(target->effects[i].name,"POISON",6)){
-				target->hp -= target->effects[i].value;
+
+			if (comparestring(target->effects[i].name,"BLEED",6) ||
+                comparestring(target->effects[i].name,"BURN",5) ||
+			    comparestring(target->effects[i].name,"POISON",6)){
+
+                printf("%s takes %d damage from %s.\n", target->name, target->effects[i].value, target->effects[i].name);
+                target->hp -= target->effects[i].value;
 				if (target->hp <= 0){
 					target->hp = 0;
+                    printf("%s has been KO'd by %s!\n", target->name, target->effects[i].name);
 				}
+			}
+
+            if (target->effects[i].duration <= 0){
+                printf("%s's %s effect wore off.\n", target->name, target->effects[i].name);
+				tabtotab("NONE",target->effects[i].name);
+				target->effects[i].value = 0;
 			}
 		}
 	}
 }
 
-void usetechnique(Character user, Character* target, Technique tech){
+void usetechnique(Character* user, Character* target, Technique* tech){
+    if(!user || !target || !tech) return;
+
 	int damage = 0;
-	char name[50];
-	int found = 0;
-	clearchararray(name,50);
-	if (comparestring(tech.type,"DAMAGE",6)){
-		damage = (tech.value+getactualattack(user)+user.attack) - getactualdefense(*target);
+	char effect_application_name[50];
+	int found_existing_effect = 0;
+	clearchararray(effect_application_name,50);
+
+    printf("%s uses %s!\n", user->name, tech->name);
+
+
+	if (comparestring(tech->type,"DAMAGE",6)){
+		damage = (tech->value + getactualattack(*user)) - getactualdefense(*target);
 		if (damage < 0){
 			damage = 0;
 		}
-		if ((*target).hp - damage <= 0){
-			(*target).hp = 0;
-		}
-		else {
-			(*target).hp -= damage;
-		}
-		printf("%s dealt %d damage to %s\n",user.name,damage,(*target).name);
-		printf("%s has %d hp left\n",(*target).name,(*target).hp);
+		target->hp -= damage;
+        printf("%s takes %d damage from %s. HP: %d/%d", target->name, damage, tech->name, (target->hp > 0 ? target->hp : 0), target->maxhp);
+        if (target->hp <= 0){
+			target->hp = 0;
+            printf(". %s is KO'd!\n", target->name);
+		} else {
+            printf("\n");
+        }
+
+        if(comparestring(tech->effect.name, "NONE", 4) == 0) {
+            if (comparestring(tech->effect.name,"BLEED",5) ||
+                comparestring(tech->effect.name,"BURN",4) ||
+                comparestring(tech->effect.name,"POISON",6)) {
+
+                tabtotab(tech->effect.name, effect_application_name);
+
+                found_existing_effect = 0;
+                for (int i = 0; i < EFFECTCOUNT; i++) {
+                    if (comparestring(target->effects[i].name, effect_application_name, strlen(effect_application_name)+1)) {
+                        target->effects[i].value = tech->effect.value;
+                        target->effects[i].duration = tech->effect.duration;
+                        printf("%s is now %s for %d turns, taking %d damage per turn.\n", target->name, effect_application_name, tech->effect.duration, tech->effect.value);
+                        found_existing_effect = 1;
+                        break;
+                    }
+                }
+                if (!found_existing_effect) {
+                    for (int i = 0; i < EFFECTCOUNT; i++) {
+                        if (comparestring(target->effects[i].name, "NONE", 4)) {
+                            tabtotab(effect_application_name, target->effects[i].name);
+                            target->effects[i].value = tech->effect.value;
+                            target->effects[i].duration = tech->effect.duration;
+                            printf("%s is now %s for %d turns, taking %d damage per turn.\n", target->name, effect_application_name, tech->effect.duration, tech->effect.value);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 	}
-	else if (comparestring(tech.type,"HEAL",5)){
-		(*target).hp += tech.value;
-		if ((*target).hp > (*target).maxhp){
-			(*target).hp = (*target).maxhp;
+	else if (comparestring(tech->type,"HEAL",5)){
+		int heal_amount = tech->value;
+        target->hp += heal_amount;
+		if (target->hp > target->maxhp){
+			target->hp = target->maxhp;
 		}
-		printf("%s healed %d hp to %s\n",user.name,tech.value,(*target).name);
+		printf("%s healed %s for %d HP. %s is now at %d/%d HP.\n",user->name, target->name, heal_amount, target->name, target->hp, target->maxhp);
 	}
-	else if (comparestring(tech.type,"BUFF",5)){
-		if (comparestring(tech.effect.name,"ATTACKUP",9)||comparestring(tech.effect.name,"DEFENSEUP",10)
-		||comparestring(tech.effect.name,"AGILITYUP",9)||comparestring(tech.effect.name,"SPEEDUP",8)){
-			if (comparestring(tech.effect.name,"SPEEDUP",8)){
-				tabtotab("speed",name);
-			}
-			else if (comparestring(tech.effect.name,"AGILITYUP",9)){
-				tabtotab("agility",name);
-			}
-			else if (comparestring(tech.effect.name,"DEFENSEUP",10)){
-				tabtotab("defense",name);
-			}
-			else if (comparestring(tech.effect.name,"ATTACKUP",9)){
-				tabtotab("attack",name);
-			}
-			tabtotab(tech.effect.name,name);
-			for (int i = 0;i<EFFECTCOUNT;i++){
-				if (comparestring((*target).effects[i].name,name,10)){
-					if ((*target).effects[i].value <= tech.effect.value){
-						(*target).effects[i].value = tech.effect.value;
-						(*target).effects[i].duration = tech.effect.duration;
-					}
-					found = 1;
-					break;
-				}
-			}
-			if (found == 0){
-				for (int i = 0;i<EFFECTCOUNT;i++){
-					if (comparestring((*target).effects[i].name,"NONE",4)){
-						tabtotab(name,(*target).effects[i].name);
-						(*target).effects[i].value = tech.effect.value;
-						(*target).effects[i].duration = tech.effect.duration;
-						break;
-					}
-				}
-			}
-		}
-	}
-	else if (comparestring(tech.type,"DEBUFF",7)){
-			tabtotab(tech.effect.name,name);
-			if (comparestring(tech.effect.name,"SPEEDDOWN",12)){
-				tabtotab("speed",name);
-			}
-			else if (comparestring(tech.effect.name,"AGILITYDOWN",11)){
-				tabtotab("agility",name);
-			}
-			else if (comparestring(tech.effect.name,"DEFENSEDOWN",12)){
-				tabtotab("defense",name);
-			}
-			else if (comparestring(tech.effect.name,"ATTACKDOWN",11)){
-				tabtotab("attack",name);
-			}
-			for (int i = 0;i<50;i++){
-				if (comparestring((*target).effects[i].name,name,10)){
-					if ((*target).effects[i].value <= tech.effect.value){
-						(*target).effects[i].value = tech.effect.value;
-						(*target).effects[i].duration = tech.effect.duration;
-					}
-					found = 1;
-					break;
-				}
-			}
-			if (found == 0){
-				for (int i = 0;i<50;i++){
-					if (comparestring((*target).effects[i].name,"NONE",4)){
-						tabtotab(name,(*target).effects[i].name);
-						(*target).effects[i].value = tech.effect.value;
-						(*target).effects[i].duration = tech.effect.duration;
-						break;
-					}
-				}
-			}
+	else if (comparestring(tech->type,"BUFF",5) || comparestring(tech->type,"DEBUFF",7)){
+        if (comparestring(tech->effect.name,"ATTACKUP",9) || comparestring(tech->effect.name,"ATTACKLOWER",11)){
+            tabtotab("attack", effect_application_name);
+        } else if (comparestring(tech->effect.name,"DEFENSEUP",10)  ){
+            tabtotab("defense", effect_application_name);
+        } else if (comparestring(tech->effect.name,"AGILITYUP",9) ){
+            tabtotab("agility", effect_application_name);
+        } else if (comparestring(tech->effect.name,"SPEEDUP",8) ){
+            tabtotab("speed", effect_application_name);
+        } else {
+            tabtotab(tech->effect.name, effect_application_name);
+        }
+
+        if(strlen(effect_application_name) > 0 && comparestring(effect_application_name, "NONE", 4) == 0) {
+            found_existing_effect = 0;
+            for (int i = 0;i<EFFECTCOUNT;i++){
+                if (comparestring(target->effects[i].name,effect_application_name, strlen(effect_application_name)+1)){
+                    target->effects[i].value = tech->effect.value;
+                    target->effects[i].duration = tech->effect.duration;
+                    printf("%s's %s changed by %d for %d turns.\n", target->name, effect_application_name, tech->effect.value, tech->effect.duration);
+                    found_existing_effect = 1;
+                    break;
+                }
+            }
+            if (!found_existing_effect){
+                for (int i = 0;i<EFFECTCOUNT;i++){
+                    if (comparestring(target->effects[i].name,"NONE",4)){
+                        tabtotab(effect_application_name,target->effects[i].name);
+                        target->effects[i].value = tech->effect.value;
+                        target->effects[i].duration = tech->effect.duration;
+                        printf("%s's %s changed by %d for %d turns.\n", target->name, effect_application_name, tech->effect.value, tech->effect.duration);
+                        break;
+                    }
+                }
+            }
+        } else {
+            printf("Technique %s (type %s) has an unhandled effect '%s'.\n", tech->name, tech->type, tech->effect.name);
+        }
 	}
 	else {
-		printf("Type not found");
-		exit(42);
+		printf("Technique type '%s' not recognized for %s.\n", tech->type, tech->name);
 	}
 }
 
-Character* chosetarget(Character* team,int size){
+Character* chosetarget(Character* team_members, int team_actual_size, const char* prompt_message){
 	int choice = -1;
 	char input[10];
-	for (int i = 0; i<size;i++){
-		printf("%d. %s\n",i+1,team[i].name);
+
+    if(team_actual_size <=0) return NULL;
+
+    printf("%s\n", prompt_message);
+	for (int i = 0; i<team_actual_size;i++){
+        if(team_members[i].hp > 0) {
+		    printf("%d. %s (HP: %d/%d)\n",i+1,team_members[i].name, team_members[i].hp, team_members[i].maxhp);
+        } else {
+            printf("%d. %s (KO'd)\n",i+1,team_members[i].name);
+        }
 	}
 	do {
-		printf("Choose your target: \n");
+		printf("Choose your target (1-%d): ", team_actual_size);
 	   if (fgets(input, sizeof(input), stdin) != NULL) {
 			if (sscanf(input, "%d", &choice) != 1) {
-				printf("Invalid input. Please enter a number between 1 and %d.\n",size);
-				choice = -1; 
+				printf("Invalid input. Please enter a number.\n");
+				choice = -1;
 			}
-			else if (team[choice-1].hp <= 0){
-				printf("%s is dead, please choose another target\n",team[choice-1].name);{
-				choice = -1; 
-				}	
+            else if (choice < 1 || choice > team_actual_size) {
+                printf("Choice out of range. Please enter a number between 1 and %d.\n", team_actual_size);
+                choice = -1;
+            }
+			else if (team_members[choice-1].hp <= 0){
+				printf("%s is already KO'd. Please choose an alive target.\n",team_members[choice-1].name);
+				choice = -1;
 			}
-		}
-	}while (choice < 1 || choice > size);
-	return &team[choice-1];
+		} else {
+            return NULL;
+        }
+	} while (choice == -1);
+	return &team_members[choice-1];
 }
 
-void dotechnique(Character* redteam,Character* blueteam,Character chara, Technique tech,int size){
-	Character* target;
-	Character** pteam;
-	Character** eteam;
-	if (comparestring(chara.team,"red",3)){
-		pteam = &redteam;
-		eteam = &blueteam;
+void dotechnique(Character* user_char, Team* friendly_team, Team* enemy_team, Technique* tech_to_use){
+    if(!user_char || !friendly_team || !enemy_team || !tech_to_use) return;
+
+    Character* target_char = NULL;
+
+	if (comparestring(tech_to_use->target,"SELF",5)){
+		usetechnique(user_char, user_char, tech_to_use);
 	}
-	else if (comparestring(chara.team,"blue",4)){
-		pteam = &blueteam;
-		eteam = &redteam;
+	else if (comparestring(tech_to_use->target,"SINGLE_ENEMY",14)){
+		target_char = chosetarget(enemy_team->members, enemy_team->current_size, "Choose an enemy target:");
+        if(target_char) usetechnique(user_char, target_char, tech_to_use);
+        else printf("No valid enemy target selected or available.\n");
 	}
-	else {
-		printf("Team not found");
-		exit(42);
-	}
-	if (comparestring(tech.target,"SELF",5)){
-		usetechnique(chara,&chara,tech);
-	}
-	else if (comparestring(tech.target,"SINGLE_ENEMY",14)){
-		Character* target = chosetarget(*eteam,size/2);
-		usetechnique(chara,target,tech);
-	}
-	else if (comparestring(tech.target,"ALL_ENEMIES",12)){
-		for (int i = 0; i<size/2;i++){
-			if ((*eteam)[i].hp > 0){
-				usetechnique(chara,&(*eteam)[i],tech);
+	else if (comparestring(tech_to_use->target,"ALL_ENEMIES",12)){
+        printf("%s uses %s on all enemies!\n", user_char->name, tech_to_use->name);
+		for (int i = 0; i < enemy_team->current_size; i++){
+			if (enemy_team->members[i].hp > 0){
+				usetechnique(user_char, &enemy_team->members[i], tech_to_use);
 			}
 		}
 	}
-	else if (comparestring(tech.target,"SINGLE_ALLY",13)){
-		Character* target = chosetarget(*pteam,size/2);
-		usetechnique(chara,target,tech);
+	else if (comparestring(tech_to_use->target,"SINGLE_ALLY",13)){
+		target_char = chosetarget(friendly_team->members, friendly_team->current_size, "Choose an allied target:");
+        if(target_char) usetechnique(user_char, target_char, tech_to_use);
+        else printf("No valid allied target selected or available.\n");
 	}
-	else if (comparestring(tech.target,"ALL_ALLIES",11)){
-		for (int i = 0; i<size/2;i++){
-			if ((*pteam)[i].hp > 0){
-				usetechnique(chara,&(*pteam)[i],tech);
+	else if (comparestring(tech_to_use->target,"ALL_ALLIES",11)){
+        printf("%s uses %s on all allies!\n", user_char->name, tech_to_use->name);
+		for (int i = 0; i < friendly_team->current_size; i++){
+			if (friendly_team->members[i].hp > 0){
+				usetechnique(user_char, &friendly_team->members[i], tech_to_use);
 			}
 		}
 	}
 	else {
-		printf("Target not found");
-		exit(42);
+		printf("Target type '%s' for technique '%s' not recognized.\n", tech_to_use->target, tech_to_use->name);
 	}
 }
 
-void playerturn(Character* redteam,Character* blueteam,Character chara,int size){
-	int t1cooldown = chara.technique1[0].oncooldown;
-	int t2cooldown = chara.technique2[0].oncooldown;
+
+void playerturn(Character* current_player_char, Team* friendly_team, Team* enemy_team){
+    if (!current_player_char || current_player_char->hp <= 0) return;
+
 	int choice = -1;
-	char input[10];
-	char type1[100];
-	char type2[100];
-	char target1[30];
-	char target2[30];
-	clearchararray(type1,100);
-	clearchararray(type2,100);
-	clearchararray(target1,30);
-	clearchararray(target2,30);
-	typetargettostring(chara.technique1[0].type,chara.technique1[0].target,type1,target1,chara.technique1->effect);
-	typetargettostring(chara.technique2[0].type,chara.technique2[0].target,type2,target2,chara.technique2->effect);
-	printf("You can chose between the following actions:\n");
-	printf("1. Attack\n");
-	printf("2. %s%s \n",chara.technique1[0].name,chara.technique1[0].description);
-	printf("Targets %s dealing %d %s, with a cooldown of %d\n turn",target1,chara.technique1->value,type1,chara.technique1->cooldown);
-	if (chara.technique1->cooldown > 1){
-		printf("s");
-	}
-	printf("\n");
-	printf("Actual cooldown: %d\n\n",chara.technique1[0].oncooldown);
-	printf("3. %s%s \n",chara.technique2[0].name,chara.technique2[0].description);
-	printf("Targets %s dealing %d %s, with a cooldown of %d turn",target2,chara.technique2->value,type2,chara.technique2->cooldown);
-	if (chara.technique2->cooldown > 1){
-		printf("s");
-	}
-	printf("\n");
-	printf("Actual cooldown: %d\n\n",chara.technique2[0].oncooldown);
+	char input_buffer[10];
+
+    Technique* tech1 = &current_player_char->technique1[0];
+    Technique* tech2 = &current_player_char->technique2[0];
+
 	do {
-		printf("Choose your action: \n");
-       if (fgets(input, sizeof(input), stdin) != NULL) {
-            if (sscanf(input, "%d", &choice) != 1) {
-                printf("Invalid input. Please enter a number between 1 and 3.\n");
-                choice = -1; 
+		if (fgets(input_buffer, sizeof(input_buffer), stdin) != NULL) {
+            if (sscanf(input_buffer, "%d", &choice) != 1) {
+                printf("Invalid input. Please enter a number (1-5): ");
+                choice = -1;
+            } else {
+                if (choice < 1 || choice > 5) {
+                    printf("Invalid choice. Please enter a number between 1 and 5: ");
+                    choice = -1;
+                }
+                else if (choice == 2 && (strlen(tech1->name) == 0 || tech1->oncooldown > 0)) {
+                    printf("Technique 1 (%s) is not available or on cooldown. Choose another action: ", strlen(tech1->name) > 0 ? tech1->name : "N/A");
+                    choice = -1;
+                }
+                else if (choice == 3 && (strlen(tech2->name) == 0 || tech2->oncooldown > 0)) {
+                    printf("Technique 2 (%s) is not available or on cooldown. Choose another action: ", strlen(tech2->name) > 0 ? tech2->name : "N/A");
+                    choice = -1;
+                }
+                else if (choice == 4) {
+                    printf("Switch Character is not implemented yet. Choose another action: ");
+                    choice = -1;
+                }
             }
-			else if (choice == 2 && chara.technique1->oncooldown != 0){ 
-                printf("Technique on cooldown, try another.\n");
-                choice = -1; 
-            }
-			else if (choice == 3 && chara.technique2->oncooldown != 0){ 
-                printf("Technique on cooldown, try another.\n");
-                choice = -1; 
-            }
-		}
-	}while (choice < 1 || choice > 3);
+        } else {
+            printf("Error reading input. Forfeiting turn.\n");
+            choice = 5;
+        }
+	}while (choice == -1);
+
 	 if (choice == 1){
-		printf("You chose to attack\n");
+        Character* target = chosetarget(enemy_team->members, enemy_team->current_size, "Choose an enemy to attack:");
+        if (target) {
+            printf("%s attacks %s!\n", current_player_char->name, target->name);
+            int damage_dealt = getactualattack(*current_player_char) - getactualdefense(*target);
+            if (damage_dealt < 0) damage_dealt = 0;
+            target->hp -= damage_dealt;
+            printf("%s takes %d damage. HP: %d/%d", target->name, damage_dealt, (target->hp > 0 ? target->hp : 0), target->maxhp);
+            if(target->hp <= 0) {
+                target->hp = 0;
+                printf(". %s has been KO'd!\n", target->name);
+            } else {
+                printf("\n");
+            }
+        } else {
+            printf("No valid target selected or available. %s forfeits the turn.\n", current_player_char->name);
+        }
 	 }
 	 else if (choice == 2){
-		dotechnique(redteam,blueteam,chara,chara.technique1[0],size);
+		dotechnique(current_player_char, friendly_team, enemy_team, tech1);
+        if(tech1->cooldown > 0) tech1->oncooldown = tech1->cooldown;
 	 }
 	 else if (choice == 3){
-		dotechnique(redteam,blueteam,chara,chara.technique2[0],size);
+		dotechnique(current_player_char, friendly_team, enemy_team, tech2);
+        if(tech2->cooldown > 0) tech2->oncooldown = tech2->cooldown;
 	 }
+     else if (choice == 4) {
+         printf("%s attempts to switch characters, but it's not implemented. Turn forfeited.\n", current_player_char->name);
+     }
+     else if (choice == 5) {
+         printf("%s forfeits the turn.\n", current_player_char->name);
+     }
 	 else {
-		printf("Error, please restart the game\n");
-		exit(42);
+		printf("Action %d not recognized or invalid under current conditions. %s forfeits the turn.\n", choice, current_player_char->name);
 	 }
 }
 
-void doturn(Character* redteam,Character* blueteam,int size,char ia[]){
-	Character* order[size*2];
-	getorder(redteam,blueteam,size,order);
-	for (int i = 0; i<size;i++){
-		if (order[i]->hp > 0){
-			printf("Turn of %s in the %s team\n",order[i]->name,order[i]->team);
-			if (comparestring(order[i]->team,"red",3)){
-				if (comparestring(ia,"No",2)){
-					playerturn(redteam,blueteam,*order[i],size);
-				//printf("IA\n");
-				}
-				else {
-					//player
-					//printf("Player\n");
-				}
-			}
-			else {
-				playerturn(redteam,blueteam,*order[i],size);
-				//printf("Player\n");
-			}
-		}
-	}
+void reduce_cooldowns(Character* character) {
+    if (!character) return;
+    if (character->technique1[0].oncooldown > 0) character->technique1[0].oncooldown--;
+    if (character->technique2[0].oncooldown > 0) character->technique2[0].oncooldown--;
 }
 
-void combatInit(Character* redteam, Character* blueteam,char ia[],int size){
-	int turn = 1;
-    if (redteam == NULL || blueteam == NULL){
-		printf("Not enough memory");
-		exit(42);
-	}
-	while (teamalive(redteam,size/2) && teamalive(blueteam,size/2)){
-		printf("=============Turn %d=============\n",turn);
-		doturn(redteam,blueteam,size,ia);
-		for (int i = 0;i<size/2;i++){
-			if (redteam[i].hp > 0){
-				doeffect(&redteam[i]);
-			}
-			if (blueteam[i].hp > 0){
-				doeffect(&blueteam[i]);
-			}
-		}
-	}
-	
-}
 
-int main() {
-	Character chars[CHARCOUNT];
-	Character redteam[3];
-	Character blueteam[3];
-	Character* order[6];
-	getcharacters(chars);
-	for(int i=0; i<CHARCOUNT; i++) {
-		if (chars[i].name[0] != '\0') {
-			printf("hm");
-			/*printf("Nom: %s \n",chars[i].name);
-			printf("Special 1: %s \n",chars[i].technique1->name);
-			printf("Special 1 type: %s \n",chars[i].technique1->type);
-			printf("Special 1 desc: %s \n",chars[i].technique1->description);
-			printf("Damage: %d \n",chars[i].technique1->value);
-			printf("Special 2: %s \n",chars[i].technique2->name);
-			printf("Special 2 desc: %s \n",chars[i].technique2->description);
-			printf("Special 2 type: %s \n",chars[i].technique2->type);
-			printf("Damage: %d \n",chars[i].technique2->value);
-			printf("Hp: %d \n",chars[i].maxhp);
-			printf("Attack: %d \n",chars[i].attack);
-			printf("Defense: %d \n",chars[i].defense);
-			printf("Speed: %d \n",chars[i].speed);
-			printf("Agility: %d \n",chars[i].agility);
-			printf("\n"); */
-			if (i<3){
-				redteam[i] = chars[i];
-				tabtotab("red",redteam[i].team);
-			}
-			else if (i<6){
-				blueteam[i-3] = chars[i];
-				tabtotab("blue",blueteam[i-3].team);
-			}
-		}
+void combatInit(Team* red_team_ptr, Team* blue_team_ptr, const char* ia_mode){
+	int turn_counter = 1;
+	Character* turn_order_list[MAX_TEAM_SIZE * 2];
+    int actual_combatants_in_round = 0;
+
+    if (!red_team_ptr || !blue_team_ptr ) {
+		printf("Error: Invalid teams for combat initialization.\n");
+		return;
 	}
-	getorder(redteam,blueteam,6,order);
-	/*for (int i = 0; i<6;i++){
-		printf("Character %d: %s\n",i+1,order[i]->name);
-		printf("Speed: %d\n",getactualspeed(*order[i]));
-	}*/
-	combatInit(redteam,blueteam,"No",6);
-	return 0;
+    if (red_team_ptr->current_size == 0 || blue_team_ptr->current_size == 0) {
+        printf("One or both teams have no members. Combat cannot start.\n");
+        return;
+    }
+
+
+    for(int i=0; i < red_team_ptr->current_size; ++i) tabtotab("red", red_team_ptr->members[i].team);
+    for(int i=0; i < blue_team_ptr->current_size; ++i) tabtotab("blue", blue_team_ptr->members[i].team);
+
+
+	while (teamalive(red_team_ptr->members, red_team_ptr->current_size) &&
+           teamalive(blue_team_ptr->members, blue_team_ptr->current_size)){
+
+        getorder(red_team_ptr, blue_team_ptr, turn_order_list, &actual_combatants_in_round);
+
+        if (actual_combatants_in_round == 0) {
+            printf("No combatants available to take turns. Ending combat.\n");
+            break;
+        }
+
+        for (int i = 0; i < actual_combatants_in_round; i++){
+            Character* active_char = turn_order_list[i];
+
+            if (!teamalive(red_team_ptr->members, red_team_ptr->current_size) ||
+                !teamalive(blue_team_ptr->members, blue_team_ptr->current_size)){
+                break;
+            }
+
+            display_combat_state(red_team_ptr, blue_team_ptr, active_char);
+
+            if (active_char->hp > 0) {
+                Team* friendly_tm = (comparestring(active_char->team, "red", 3)) ? red_team_ptr : blue_team_ptr;
+                Team* enemy_tm = (comparestring(active_char->team, "red", 3)) ? blue_team_ptr : red_team_ptr;
+
+                doeffect(active_char);
+                if(active_char->hp <= 0) {
+                    printf("%s was KO'd by an effect before their turn!\n", active_char->name);
+                    press_enter_to_continue();
+                    continue;
+                }
+                reduce_cooldowns(active_char);
+
+                int is_player_controlled_turn = 0;
+                const char* player_identifier_string = "";
+
+                if (comparestring(active_char->team, "red", 3)) {
+                    player_identifier_string = "Player 1";
+                    if (comparestring(ia_mode, "PlayerVsPlayer", 15) || comparestring(ia_mode, "PlayerVsAI", 11)) {
+                        is_player_controlled_turn = 1;
+                    }
+                } else if (comparestring(active_char->team, "blue", 4)) {
+                    player_identifier_string = "Player 2";
+                    if (comparestring(ia_mode, "PlayerVsPlayer", 15)) {
+                        is_player_controlled_turn = 1;
+                    }
+                }
+
+
+                if (is_player_controlled_turn) {
+                    display_character_actions(active_char, player_identifier_string);
+                    playerturn(active_char, friendly_tm, enemy_tm);
+                } else {
+                    printf("[AI TURN] %s (%s Team) takes its turn (Basic AI).\n", active_char->name, active_char->team);
+                    Character* ai_target = NULL;
+                    for(int k=0; k < enemy_tm->current_size; ++k) {
+                        if(enemy_tm->members[k].hp > 0) {
+                            ai_target = &enemy_tm->members[k];
+                            break;
+                        }
+                    }
+                    if (ai_target) {
+                        printf("%s attacks %s!\n", active_char->name, ai_target->name);
+                        int damage_dealt = getactualattack(*active_char) - getactualdefense(*ai_target);
+                        if (damage_dealt < 0) damage_dealt = 0;
+                        ai_target->hp -= damage_dealt;
+                        printf("%s takes %d damage. HP: %d/%d", ai_target->name, damage_dealt, (ai_target->hp > 0 ? ai_target->hp : 0), ai_target->maxhp);
+                        if(ai_target->hp <= 0) {
+                            ai_target->hp = 0;
+                            printf(". %s has been KO'd!\n", ai_target->name);
+                        } else {
+                             printf("\n");
+                        }
+                    } else {
+                        printf("[AI] %s has no targets to attack. Turn forfeited.\n", active_char->name);
+                    }
+                }
+            } else {
+                 printf("%s is KO'd and skips their turn.\n", active_char->name);
+            }
+            if (teamalive(red_team_ptr->members, red_team_ptr->current_size) &&
+                teamalive(blue_team_ptr->members, blue_team_ptr->current_size)){
+                press_enter_to_continue();
+            }
+        }
+		turn_counter++;
+	}
+
+    display_combat_state(red_team_ptr, blue_team_ptr, NULL);
+    if (teamalive(red_team_ptr->members, red_team_ptr->current_size)) {
+        printf("\nPlayer 1 (Red Team) Wins!\n");
+    } else if (teamalive(blue_team_ptr->members, blue_team_ptr->current_size)) {
+        printf("\nPlayer 2 (Blue Team) Wins!\n");
+    } else {
+        printf("\nIt's a Draw!\n");
+    }
+    press_enter_to_continue();
 }
