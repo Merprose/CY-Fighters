@@ -103,9 +103,9 @@ void print_health_bar(int current_hp, int max_hp, int bar_width) {
     printf("[");
     for (int i = 0; i < bar_width; ++i) {
         if (i < filled_width) {
-            printf("#"); // Filled segment
+            printf("#"); // Filled
         } else {
-            printf(" "); // Empty segment
+            printf(" "); // Empty
         }
     }
     printf("] %d/%d HP", current_hp, max_hp);
@@ -147,9 +147,9 @@ void display_combat_state(Team* team1, Team* team2, Character* current_combatant
     if (current_combatant && current_combatant->hp > 0) {
         const char* player_string = "";
         // Determine if the current combatant is Player 1 or Player 2 based on their team property
-        if (comparestring(current_combatant->team, "red", 3)) { // Assuming "red" team is P1
+        if (comparestring(current_combatant->team, "red", 3)) { 
             player_string = "Player 1";
-        } else if (comparestring(current_combatant->team, "blue", 4)) { // Assuming "blue" team is P2
+        } else if (comparestring(current_combatant->team, "blue", 4)) { 
             player_string = "Player 2";
         }
         printf("\nIt's %s's turn (%s).\n", current_combatant->name, player_string);
@@ -176,7 +176,6 @@ void display_character_actions(const Character* combatant, const char* player_id
     } else {
         printf("3. (No Technique 2)\n");
     }
-    printf("4. Switch Character (Not implemented yet)\n");
     printf("5. Forfeit Turn / Do Nothing\n");
     printf("%s (%s), choose action: ", player_identifier_string, combatant->name);
 }

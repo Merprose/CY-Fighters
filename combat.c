@@ -377,7 +377,7 @@ void dotechnique(Character* user_char, Team* friendly_team, Team* enemy_team, Te
 
 
 void playerturn(Character* current_player_char, Team* friendly_team, Team* enemy_team){
-    if (!current_player_char || current_player_char->hp <= 0) return;
+    if (!current_player_char || current_player_char->hp <= 0) return; // Skip turn if 
 
 	int choice = -1;
 	char input_buffer[10];
@@ -385,14 +385,16 @@ void playerturn(Character* current_player_char, Team* friendly_team, Team* enemy
     Technique* tech1 = &current_player_char->technique1[0];
     Technique* tech2 = &current_player_char->technique2[0];
 
+    // Loop for action selection until a valid action is chosen
 	do {
 		if (fgets(input_buffer, sizeof(input_buffer), stdin) != NULL) {
-            if (sscanf(input_buffer, "%d", &choice) != 1) {
-                printf("Invalid input. Please enter a number (1-5): ");
+            if (sscanf(input_buffer, "%d", &choice) != 1) { // Validate numeric input
+                printf("Invalid input. Please enter a number (1-4): "); // Max choice is 4 now
                 choice = -1;
             } else {
-                if (choice < 1 || choice > 5) {
-                    printf("Invalid choice. Please enter a number between 1 and 5: ");
+                // Validate choice range and technique availability/cooldown
+                if (choice < 1 || choice > 4) { // Max choice is 4 
+                    printf("Invalid choice. Please enter a number between 1 and 4: "); // Max choice is 4 now
                     choice = -1;
                 }
                 else if (choice == 2 && (strlen(tech1->name) == 0 || tech1->oncooldown > 0)) {
@@ -403,23 +405,21 @@ void playerturn(Character* current_player_char, Team* friendly_team, Team* enemy
                     printf("Technique 2 (%s) is not available or on cooldown. Choose another action: ", strlen(tech2->name) > 0 ? tech2->name : "N/A");
                     choice = -1;
                 }
-                else if (choice == 4) {
-                    printf("Switch Character is not implemented yet. Choose another action: ");
-                    choice = -1;
-                }
+                // No choice == 4 for switch anymore, choice 4 is now forfeit
             }
-        } else {
+        } else { // fgets failed
             printf("Error reading input. Forfeiting turn.\n");
-            choice = 5;
+            choice = 4; // Default to forfeit turn (now option 4) on input error
         }
 	}while (choice == -1);
 
-	 if (choice == 1){
+    // Execute chosen action
+	 if (choice == 1){ // Basic Attack
         Character* target = chosetarget(enemy_team->members, enemy_team->current_size, "Choose an enemy to attack:");
         if (target) {
             printf("%s attacks %s!\n", current_player_char->name, target->name);
             int damage_dealt = getactualattack(*current_player_char) - getactualdefense(*target);
-            if (damage_dealt < 0) damage_dealt = 0;
+            if (damage_dealt < 0) damage_dealt = 0; // No negative damage
             target->hp -= damage_dealt;
             printf("%s takes %d damage. HP: %d/%d", target->name, damage_dealt, (target->hp > 0 ? target->hp : 0), target->maxhp);
             if(target->hp <= 0) {
@@ -432,21 +432,18 @@ void playerturn(Character* current_player_char, Team* friendly_team, Team* enemy
             printf("No valid target selected or available. %s forfeits the turn.\n", current_player_char->name);
         }
 	 }
-	 else if (choice == 2){
+	 else if (choice == 2){ // Use Technique 1
 		dotechnique(current_player_char, friendly_team, enemy_team, tech1);
-        if(tech1->cooldown > 0) tech1->oncooldown = tech1->cooldown;
+        if(tech1->cooldown > 0) tech1->oncooldown = tech1->cooldown; // Set cooldown
 	 }
-	 else if (choice == 3){
+	 else if (choice == 3){ // Use Technique 2
 		dotechnique(current_player_char, friendly_team, enemy_team, tech2);
-        if(tech2->cooldown > 0) tech2->oncooldown = tech2->cooldown;
+        if(tech2->cooldown > 0) tech2->oncooldown = tech2->cooldown; // Set cooldown
 	 }
-     else if (choice == 4) {
-         printf("%s attempts to switch characters, but it's not implemented. Turn forfeited.\n", current_player_char->name);
-     }
-     else if (choice == 5) {
+     else if (choice == 4) { // Forfeit turn (was choice 5)
          printf("%s forfeits the turn.\n", current_player_char->name);
      }
-	 else {
+	 else { // fallback
 		printf("Action %d not recognized or invalid under current conditions. %s forfeits the turn.\n", choice, current_player_char->name);
 	 }
 }
